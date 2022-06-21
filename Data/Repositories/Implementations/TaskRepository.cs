@@ -59,9 +59,31 @@ namespace Data.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<List<Models.Task>> GetAllTasks()
+        public async Task<List<Models.Task>> GetAllTasks()
         {
-            throw new NotImplementedException();
+            List<Models.Task> tasks = new List<Models.Task>();
+            using (SqlConnection con = new SqlConnection(_conString))
+            {
+                var command = "SELECT * FROM Tasks";
+
+                SqlCommand cmd = new SqlCommand(command, con);
+                con.Open();
+                var res = await cmd.ExecuteReaderAsync();
+                if(res.HasRows)
+                {
+                    while(res.Read())
+                    {
+                        tasks.Add(new Models.Task()
+                        {
+                            Id = Convert.ToInt32(res["Id"]),
+                            TodoTask = res["Task"].ToString(),
+                            Date = (DateTime)res["DateCreated"]
+                        });
+                    }
+                }
+                con.Close();
+            }
+            return tasks;
         }
 
         public System.Threading.Tasks.Task GetTaskById(int id)

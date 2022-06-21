@@ -26,7 +26,7 @@ namespace TodoApp.Pages
             await _repo.CreateTask(Task);
             Task = new Data.Models.Task();
 
-            return Page();
+            return RedirectToPage("Index");
         }
 
     }
