@@ -28,3 +28,7 @@ body {
 #list1 .select-input.form-control[readonly]:not([disabled]) {
     background-color: #fbfbfb;
 }
+
+.no-border {
+    border: 0 !important;
+}

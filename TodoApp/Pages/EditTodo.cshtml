@@ -1,0 +1,42 @@
+﻿@page
+@model TodoApp.Pages.EditTodoModel
+@{
+    ViewData["Title"] = "Edit Todo";
+}
+<section class="vh-100">
+  <div class="container  h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
+          <div class="card-body py-4 px-4 px-md-5">
+
+            <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
+              <i class="fas fa-check-square me-1"></i>
+              <u>My Todo-s</u>
+            </p>
+
+            <div class="pb-2">
+              <div class="card">
+                <div class="card-body">
+                 
+                    <form method="post" class="d-flex flex-row align-items-center">
+                        <input type="text" class="form-control form-control-lg" asp-for="Task.TodoTask"
+                      placeholder="Add new...">
+                   <!-- <a href="#!" data-mdb-toggle="tooltip" title="Set due date"><i
+                        class="fas fa-calendar-alt fa-lg me-3"></i></a>-->
+                    <div>
+                      <button type="submit" class="btn btn-primary" asp-page-handler="Add">Add</button>
+                    </div>
+                    </form>
+                 
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,4 +1,5 @@
 ﻿using Data.Repositories.Abstractions;
+using Data.ViewModel;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Data.Repositories.Implementations
             _conString = config.GetConnectionString("DefaultConnection");
 
         }
-        public async Task CreateTask(Models.Task task)
+        public async Task CreateTask(TaskViewModel task)
         {
             task.Date = DateTime.Now;
             using(SqlConnection con = new SqlConnection(_conString))
@@ -34,17 +35,27 @@ namespace Data.Repositories.Implementations
             }
         }
 
-        public System.Threading.Tasks.Task DeleteMultpileDate(List<int> ids)
+        public Task DeleteMultpileDate(List<int> ids)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task DeleteTaskById(int id)
+        public async Task DeleteTaskById(int id)
         {
-            throw new NotImplementedException();
+         
+            using (SqlConnection con = new SqlConnection(_conString))
+            {
+                var command = "DELETE FROM Tasks WHERE Id=@id";
+
+                SqlCommand cmd = new SqlCommand(command, con);
+                cmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                await cmd.ExecuteNonQueryAsync();
+                con.Close();
+            }
         }
 
-        public System.Threading.Tasks.Task EditTask(Models.Task task)
+        public System.Threading.Tasks.Task EditTask(TaskViewModel task)
         {
             throw new NotImplementedException();
         }
@@ -59,9 +70,9 @@ namespace Data.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<List<Models.Task>> GetAllTasks()
+        public async Task<List<TaskViewModel>> GetAllTasks()
         {
-            List<Models.Task> tasks = new List<Models.Task>();
+            List<TaskViewModel> tasks = new List<TaskViewModel>();
             using (SqlConnection con = new SqlConnection(_conString))
             {
                 var command = "SELECT * FROM Tasks";
@@ -73,7 +84,7 @@ namespace Data.Repositories.Implementations
                 {
                     while(res.Read())
                     {
-                        tasks.Add(new Models.Task()
+                        tasks.Add(new TaskViewModel()
                         {
                             Id = Convert.ToInt32(res["Id"]),
                             TodoTask = res["Task"].ToString(),

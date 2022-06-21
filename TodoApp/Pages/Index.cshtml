@@ -52,15 +52,14 @@
               <a href="#!" style="color: #23af89;" data-mdb-toggle="tooltip" title="Ascending"><i
                   class="fas fa-sort-amount-down-alt ms-2"></i></a>
             </div>
-                        @{
-                            foreach(var task in Model.Tasks)
-                            {
+ @{
+             foreach(var task in Model.Tasks)
+             {
                                   <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
               <li
                 class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                 <div class="form-check">
-                  <input class="form-check-input me-0" type="checkbox" value="" id="flexCheckChecked1"
-                    aria-label="..." checked />
+                  <input class="form-check-input me-0" type="checkbox" asp-for="Task.Check" />
                 </div>
               </li>
               <li
@@ -69,10 +68,12 @@
               </li>
               <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
                 <div class="d-flex flex-row justify-content-end mb-1">
-                  <a href="#!" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
+                  <a asp-page="EditTodo" asp-route-id="@task.Id" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
                       class="fas fa-pencil-alt me-3"></i></a>
-                  <a href="#!" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i
-                      class="fas fa-trash-alt"></i></a>
+                <form method="post">
+                 <button type="submit" asp-page-handler="Delete" asp-route-id="@task.Id" class="text-danger fas fa-trash-alt no-border" data-mdb-toggle="tooltip"></button>
+                </form>
+                 
                 </div>
                 <div class="text-end text-muted">
                   <a href="#!" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
@@ -81,10 +82,9 @@
                 </div>
               </li>
             </ul>
-                            }
-                        }
+            }
+ }
 
-          
           </div>
         </div>
       </div>

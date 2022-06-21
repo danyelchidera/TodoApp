@@ -15,6 +15,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\hp\Documents\Algo\TodoApp\TodoApp
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/hp/Documents/Algo/TodoApp/TodoApp/Pages/EditTodo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRWRpdFRvZG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/hp/Documents/Algo/TodoApp/TodoApp/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,4 +1,5 @@
 ﻿using Data.Repositories.Abstractions;
+using Data.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,8 +14,8 @@ namespace TodoApp.Pages
         {
             _repo = repo;
         }
-        public Data.Models.Task Task { get; set; }
-        public IEnumerable<Data.Models.Task> Tasks { get; set; }
+        public TaskViewModel Task { get; set; }
+        public IEnumerable<TaskViewModel> Tasks { get; set; }
 
         public async void OnGet()
         {
@@ -24,7 +25,14 @@ namespace TodoApp.Pages
         public async Task<IActionResult> OnPostAdd()
         {
             await _repo.CreateTask(Task);
-            Task = new Data.Models.Task();
+            Task = new TaskViewModel();
+
+            return RedirectToPage("Index");
+        }
+
+        public async Task<IActionResult> OnPostDelete(int id)
+        {
+            await _repo.DeleteTaskById(id);
 
             return RedirectToPage("Index");
         }
