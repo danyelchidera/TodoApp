@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
 
