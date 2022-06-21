@@ -55,9 +55,19 @@ namespace Data.Repositories.Implementations
             }
         }
 
-        public System.Threading.Tasks.Task EditTask(TaskViewModel task)
+        public async Task EditTask(TaskViewModel task)
         {
-            throw new NotImplementedException();
+            using (SqlConnection con = new SqlConnection(_conString))
+            {
+                var command = "UPDATE Tasks SET Task=@task WHERE Id=@id";
+
+                SqlCommand cmd = new SqlCommand(command, con);
+                cmd.Parameters.AddWithValue("@task", task.TodoTask);
+                cmd.Parameters.AddWithValue("@id", task.Id);
+                con.Open();
+                await cmd.ExecuteNonQueryAsync();
+                con.Close();
+            }
         }
 
         public System.Threading.Tasks.Task FindByDate(DateTime date)
@@ -97,9 +107,28 @@ namespace Data.Repositories.Implementations
             return tasks;
         }
 
-        public System.Threading.Tasks.Task GetTaskById(int id)
+        public async Task<TaskViewModel> GetTaskById(int id)
         {
-            throw new NotImplementedException();
+            TaskViewModel task = new TaskViewModel();
+            using (SqlConnection con = new SqlConnection(_conString))
+            {
+                var command = "SELECT * FROM Tasks WHERE Id=@id";
+
+                SqlCommand cmd = new SqlCommand(command, con);
+                cmd.Parameters.AddWithValue("@id", id);
+                con.Open();
+                var res = await cmd.ExecuteReaderAsync();
+               if(res.HasRows)
+                {
+                    res.Read();
+                    task.TodoTask = res["Task"].ToString();
+                    task.Date = (DateTime)res["DateCreated"];
+                    task.Id = Convert.ToInt32(res["Id"]);
+                }
+                
+                con.Close();
+            }
+            return task;
         }
     }
 }

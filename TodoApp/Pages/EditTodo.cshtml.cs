@@ -1,17 +1,29 @@
+using Data.Repositories.Abstractions;
 using Data.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TodoApp.Pages
 {
+    [BindProperties]
     public class EditTodoModel : PageModel
     {
-
-        public TaskViewModel Task{ get; set; }
-
-        public void OnGet(int id)
+        private readonly ITaskRepository _repo;
+        public TaskViewModel Task { get; set; }
+        public EditTodoModel(ITaskRepository repo)
         {
-           
+            _repo = repo;
+        }
+
+        public async void OnGet(int id)
+        {
+            Task =  await _repo.GetTaskById(id);
+        }
+
+        public async Task<IActionResult> OnPost()
+        {
+            await _repo.EditTask(Task);
+            return RedirectToPage("Index");
         }
     }
 }

@@ -22,12 +22,16 @@
                     <form method="post" class="d-flex flex-row align-items-center">
                         <input type="text" class="form-control form-control-lg" asp-for="Task.TodoTask"
                       placeholder="Add new...">
+                      <input type="text" asp-for="Task.Id" hidden/>
+                      <input type="text" asp-for="Task.Date" hidden>
+
                    <!-- <a href="#!" data-mdb-toggle="tooltip" title="Set due date"><i
                         class="fas fa-calendar-alt fa-lg me-3"></i></a>-->
                     <div>
-                      <button type="submit" class="btn btn-primary" asp-page-handler="Add">Add</button>
+                      <button type="submit" class="btn btn-primary" asp-page-handler="Edit">Edit</button>
                     </div>
                     </form>
+       
                  
                 </div>
               </div>
