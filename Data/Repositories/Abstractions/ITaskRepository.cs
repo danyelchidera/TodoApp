@@ -11,7 +11,7 @@ namespace Data.Repositories.Abstractions
         Task<TaskViewModel> GetTaskById(int id);
         Task EditTask(TaskViewModel task);
         Task<List<TaskViewModel>> FindTasks(string searchWord);
-        Task FindByDate(DateTime date);
+        Task<List<TaskViewModel>> FindByDate(DateTime date);
         Task DeleteMultpleTasks(List<int> ids);
     }
 }
