@@ -93,9 +93,13 @@ namespace Data.Repositories.Implementations
             }
         }
 
-        public Task FindByDate(DateTime date)
+        public async Task<List<TaskViewModel>> FindByDate(DateTime date)
         {
-            throw new NotImplementedException();
+            SqlCommand cmd = new SqlCommand();
+            //select * from test where cast ([date] as date) = '03/19/2014';
+            cmd.CommandText = "SELECT * FROM Tasks WHERE cast([DateCreated] as date) = @param";
+            cmd.Parameters.AddWithValue("@param",date.Date);
+            return await GetTasks(cmd);
         }
 
         public async Task<List<TaskViewModel>> FindTasks(string searchWord)

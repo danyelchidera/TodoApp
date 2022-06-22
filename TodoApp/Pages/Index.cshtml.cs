@@ -37,8 +37,8 @@ namespace TodoApp.Pages
 
         public async Task<IActionResult> OnPostSearchByDate()
         {
-            var d = Date;
             
+            Tasks = await _repo.FindByDate(Date);
             return Page();
         }
 
