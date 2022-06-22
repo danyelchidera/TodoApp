@@ -3,6 +3,7 @@ using Data.ViewModel;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -35,9 +36,30 @@ namespace Data.Repositories.Implementations
             }
         }
 
-        public Task DeleteMultpileDate(List<int> ids)
+        public Task DeleteMultpleTasks(List<int> ids)
         {
-            throw new NotImplementedException();
+            var tvp = new DataTable();
+            tvp.Columns.Add("Id", typeof(int));
+
+            foreach (var id in ids)
+                tvp.Rows.Add(new { id });
+
+            using (var connection = new SqlConnection(_conString))
+            {
+                var delete = new SqlCommand("deleteSelectedTask", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                delete
+                  .Parameters
+                  .AddWithValue("@ids", tvp)
+                  .SqlDbType = SqlDbType.Structured;
+
+                delete.ExecuteNonQuery();
+            }
+
+            
         }
 
         public async Task DeleteTaskById(int id)

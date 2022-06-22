@@ -36,54 +36,50 @@
 
             <hr class="my-4">
 
-            <div class="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
-              <p class="small mb-0 me-2 text-muted">Filter</p>
-              <select class="select">
-                <option value="1">All</option>
-                <option value="2">Completed</option>
-                <option value="3">Active</option>
-                <option value="4">Has due date</option>
-              </select>
-              <p class="small mb-0 ms-4 me-2 text-muted">Sort</p>
-              <select class="select">
-                <option value="1">Added date</option>
-                <option value="2">Due date</option>
-              </select>
-              <a href="#!" style="color: #23af89;" data-mdb-toggle="tooltip" title="Ascending"><i
-                  class="fas fa-sort-amount-down-alt ms-2"></i></a>
-            </div>
- @{
-             foreach(var task in Model.Tasks)
+           
+            
+ 
+     <form method="post">
+         
+             @for(int i = 0; i < Model.Tasks.Count(); i++)
              {
                                   <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
               <li
                 class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                 <div class="form-check">
-                  <input class="form-check-input me-0" type="checkbox" asp-for="Task.Check" />
+                  <input class="form-check-input me-0" asp-for="@Model.Tasks[i].Check" />
+                   <input class="form-check-input me-0" asp-for="@Model.Tasks[i].Id" hidden />
+
                 </div>
               </li>
               <li
                 class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                <p class="lead fw-normal mb-0">@task.TodoTask</p>
+                <p class="lead fw-normal mb-0">@Model.Tasks[i].TodoTask</p>
               </li>
               <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
                 <div class="d-flex flex-row justify-content-end mb-1">
-                  <a asp-page="EditTodo" asp-route-id="@task.Id" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
+                  <a asp-page="EditTodo" asp-route-id="@Model.Tasks[i].Id" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i
                       class="fas fa-pencil-alt me-3"></i></a>
-                <form method="post">
-                 <button type="submit" asp-page-handler="Delete" asp-route-id="@task.Id" class="text-danger fas fa-trash-alt no-border" data-mdb-toggle="tooltip"></button>
-                </form>
+                
+                 <button type="submit" asp-page-handler="Delete" asp-route-id="@Model.Tasks[i].Id" class="text-danger fas fa-trash-alt no-border" data-mdb-toggle="tooltip"></button>
+               
                  
                 </div>
                 <div class="text-end text-muted">
                   <a href="#!" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
-                    <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>@task.Date</p>
+                    <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>@Model.Tasks[i].Date</p>
                   </a>
                 </div>
               </li>
             </ul>
             }
- }
+             <div class="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
+              
+                 <button type="submit" asp-page-handler="DeleteSelected" class="text-danger btn btn-outline" data-mdb-toggle="tooltip">Delete Selected</button>
+                
+            </div>
+             </form>
+ 
 
           </div>
         </div>

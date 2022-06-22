@@ -12,6 +12,6 @@ namespace Data.Repositories.Abstractions
         Task EditTask(TaskViewModel task);
         Task FindTask(string searchWord);
         Task FindByDate(DateTime date);
-        Task DeleteMultpileDate(List<int> ids);
+        Task DeleteMultpleTasks(List<int> ids);
     }
 }
