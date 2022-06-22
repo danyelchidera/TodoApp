@@ -15,9 +15,11 @@ namespace TodoApp.Pages
             _repo = repo;
         }
 
-        public async void OnGet(int id)
+        public async Task<IActionResult> OnGet(int id)
         {
             Task =  await _repo.GetTaskById(id);
+            return Page();
+
         }
 
         public async Task<IActionResult> OnPost()

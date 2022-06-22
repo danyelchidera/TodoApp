@@ -5,21 +5,41 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TodoApp.Pages
 {
-    [BindProperties]
+    [BindProperties(SupportsGet = true)]
     public class IndexModel : PageModel
     {
         private readonly ITaskRepository _repo;
+        public TaskViewModel Task { get; set; }
+        public string SearchQuery { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now.Date;
 
         public IndexModel(ITaskRepository repo)
         {
             _repo = repo;
         }
-        public TaskViewModel Task { get; set; }
+        
         public IList<TaskViewModel> Tasks { get; set; }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            Tasks = _repo.GetAllTasks();
+            if(string.IsNullOrEmpty(SearchQuery))
+            {
+                Tasks = await _repo.GetAllTasks();
+            }
+            else
+            {
+                Tasks = await _repo.FindTasks(SearchQuery);
+            }
+            
+           
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostSearchByDate()
+        {
+            var d = Date;
+            
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAdd()

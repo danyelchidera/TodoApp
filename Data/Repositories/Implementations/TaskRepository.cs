@@ -93,41 +93,26 @@ namespace Data.Repositories.Implementations
             }
         }
 
-        public System.Threading.Tasks.Task FindByDate(DateTime date)
+        public Task FindByDate(DateTime date)
         {
             throw new NotImplementedException();
         }
 
-        public System.Threading.Tasks.Task FindTask(string searchWord)
+        public async Task<List<TaskViewModel>> FindTasks(string searchWord)
         {
-            throw new NotImplementedException();
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT * FROM Tasks WHERE Task LIKE @param";
+            cmd.Parameters.AddWithValue("@param","%" + searchWord + "%");
+            return await GetTasks(cmd);
+
+
         }
 
-        public  List<TaskViewModel> GetAllTasks()
+        public async Task<List<TaskViewModel>> GetAllTasks()
         {
-            List<TaskViewModel> tasks = new List<TaskViewModel>();
-            using (SqlConnection con = new SqlConnection(_conString))
-            {
-                var command = "SELECT * FROM Tasks";
-
-                SqlCommand cmd = new SqlCommand(command, con);
-                con.Open();
-                var res = cmd.ExecuteReader();
-                if(res.HasRows)
-                {
-                    while(res.Read())
-                    {
-                        tasks.Add(new TaskViewModel()
-                        {
-                            Id = Convert.ToInt32(res["Id"]),
-                            TodoTask = res["Task"].ToString(),
-                            Date = (DateTime)res["DateCreated"]
-                        });
-                    }
-                }
-                con.Close();
-            }
-            return tasks;
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT * FROM Tasks";
+            return await GetTasks(cmd);
         }
 
         public async Task<TaskViewModel> GetTaskById(int id)
@@ -152,6 +137,30 @@ namespace Data.Repositories.Implementations
                 con.Close();
             }
             return task;
+        }
+        private async Task<List<TaskViewModel>> GetTasks(SqlCommand cmd)
+        {
+            List<TaskViewModel> tasks = new List<TaskViewModel>();
+            using (SqlConnection con = new SqlConnection(_conString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                var res = await cmd.ExecuteReaderAsync();
+                if (res.HasRows)
+                {
+                    while (res.Read())
+                    {
+                        tasks.Add(new TaskViewModel()
+                        {
+                            Id = Convert.ToInt32(res["Id"]),
+                            TodoTask = res["Task"].ToString(),
+                            Date = (DateTime)res["DateCreated"]
+                        });
+                    }
+                }
+                con.Close();
+            }
+            return tasks;
         }
     }
 }

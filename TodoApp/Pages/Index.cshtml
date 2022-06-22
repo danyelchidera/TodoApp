@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model IndexModel
 @{
     ViewData["Title"] = "Todo page";
@@ -17,21 +17,41 @@
             </p>
 
             <div class="pb-2">
-              <div class="card">
-                <div class="card-body">
-                 
-                    <form method="post" class="d-flex flex-row align-items-center">
+             
+                 <div class="d-flex justify-content-center align-items-center">
+                     <form method="post" class="d-flex flex-row align-items-center me-5">
                         <input type="text" class="form-control form-control-lg" asp-for="Task.TodoTask"
                       placeholder="Add new...">
                    <!-- <a href="#!" data-mdb-toggle="tooltip" title="Set due date"><i
                         class="fas fa-calendar-alt fa-lg me-3"></i></a>-->
                     <div>
-                      <button type="submit" class="btn btn-primary" asp-page-handler="Add">Add</button>
+                      <button type="submit" class="btn btn-primary ms-2" asp-page-handler="Add"><i class="fa fa-plus" aria-hidden="true"></i></button>
                     </div>
                     </form>
+
+                   <form class="d-flex flex-row align-items-center ms-5">
+                        <input type="text" class="form-control form-control-lg" asp-for="SearchQuery"
+                      placeholder="Search...">
+                   <!-- <a href="#!" data-mdb-toggle="tooltip" title="Set due date"><i
+                        class="fas fa-calendar-alt fa-lg me-3"></i></a>-->
+                    <div>
+                   
+                      <button type="submit"  class="btn btn-primary ms-2" ><i class="fas fa-search"></i></button>
+                    </div>
+                    </form>
+
+                    <form method="post" class="d-flex flex-row align-items-center ms-5">
+                         <input type="date" asp-for="Date" class="form-control form-control-lg">
+                     
+                     <div>
+                      <button asp-page-handler="SearchByDate" type="submit" class="btn btn-primary ms-2" ><i class="fas fa-search"></i></button>
+                    </div>
+                     </form>
+
+                 </div>
+                    
                  
-                </div>
-              </div>
+              
             </div>
 
             <hr class="my-4">
