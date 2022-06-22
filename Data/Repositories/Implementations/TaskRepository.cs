@@ -36,27 +36,28 @@ namespace Data.Repositories.Implementations
             }
         }
 
-        public Task DeleteMultpleTasks(List<int> ids)
+        public async Task DeleteMultpleTasks(List<int> ids)
         {
             var tvp = new DataTable();
             tvp.Columns.Add("Id", typeof(int));
 
             foreach (var id in ids)
-                tvp.Rows.Add(new { id });
+                tvp.Rows.Add(id);
 
-            using (var connection = new SqlConnection(_conString))
+            using (var conn = new SqlConnection(_conString))
             {
-                var delete = new SqlCommand("deleteSelectedTask", connection)
+                var  cmd = new SqlCommand("deleteSelected", conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
 
-                delete
+                cmd
                   .Parameters
                   .AddWithValue("@ids", tvp)
                   .SqlDbType = SqlDbType.Structured;
-
-                delete.ExecuteNonQuery();
+                conn.Open();
+                await cmd.ExecuteNonQueryAsync();
+                conn.Close();
             }
 
             
@@ -102,7 +103,7 @@ namespace Data.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<List<TaskViewModel>> GetAllTasks()
+        public  List<TaskViewModel> GetAllTasks()
         {
             List<TaskViewModel> tasks = new List<TaskViewModel>();
             using (SqlConnection con = new SqlConnection(_conString))
@@ -111,7 +112,7 @@ namespace Data.Repositories.Implementations
 
                 SqlCommand cmd = new SqlCommand(command, con);
                 con.Open();
-                var res = await cmd.ExecuteReaderAsync();
+                var res = cmd.ExecuteReader();
                 if(res.HasRows)
                 {
                     while(res.Read())

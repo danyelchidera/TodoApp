@@ -7,7 +7,7 @@ namespace Data.Repositories.Abstractions
     {
         Task CreateTask(TaskViewModel task);
         Task DeleteTaskById(int id);
-        Task<List<TaskViewModel>> GetAllTasks();
+        List<TaskViewModel> GetAllTasks();
         Task<TaskViewModel> GetTaskById(int id);
         Task EditTask(TaskViewModel task);
         Task FindTask(string searchWord);

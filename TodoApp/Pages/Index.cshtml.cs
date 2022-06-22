@@ -17,9 +17,9 @@ namespace TodoApp.Pages
         public TaskViewModel Task { get; set; }
         public IList<TaskViewModel> Tasks { get; set; }
 
-        public async void OnGet()
+        public void OnGet()
         {
-            Tasks = await _repo.GetAllTasks();
+            Tasks = _repo.GetAllTasks();
         }
 
         public async Task<IActionResult> OnPostAdd()
@@ -43,8 +43,13 @@ namespace TodoApp.Pages
 
         public async Task<IActionResult> OnPostDeleteSelected()
         {
-            
-            var checkTasks = Tasks;
+            var ids = new List<int>();
+            foreach(var task in Tasks)
+            {
+                if(task.Check)
+                    ids.Add(task.Id);
+            }
+            await _repo.DeleteMultpleTasks(ids);
             return RedirectToPage("Index");
         }
 

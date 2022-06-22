@@ -40,7 +40,7 @@
             
  
      <form method="post">
-         
+        
              @for(int i = 0; i < Model.Tasks.Count(); i++)
              {
                                   <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
@@ -73,9 +73,9 @@
               </li>
             </ul>
             }
-             <div class="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
+              <div class="d-flex justify-content-end align-items-center mb-4 pt-2 pb-3">
               
-                 <button type="submit" asp-page-handler="DeleteSelected" class="text-danger btn btn-outline" data-mdb-toggle="tooltip">Delete Selected</button>
+                 <button type="submit" asp-page-handler="DeleteSelected" class="btn btn-outline-danger" data-mdb-toggle="tooltip">Delete Selected</button>
                 
             </div>
              </form>
